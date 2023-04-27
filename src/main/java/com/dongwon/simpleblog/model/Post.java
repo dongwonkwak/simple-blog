@@ -3,6 +3,7 @@ package com.dongwon.simpleblog.model;
 
 import com.dongwon.simpleblog.util.BaseTime;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class Post extends BaseTime {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @NotEmpty(message = "Title cannot be empty.")
     private String title;
 
     @Column(columnDefinition = "TEXT")

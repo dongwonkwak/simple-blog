@@ -20,8 +20,7 @@ public class SeedData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<Post> posts = postService.getAll();
-
+        /*List<Post> posts = postService.getAll();
         if (posts.isEmpty()) {
             User user1 = new User();
             User user2 = new User();
@@ -48,6 +47,6 @@ public class SeedData implements CommandLineRunner {
 
             postService.save(post1);
             postService.save(post2);
-        }
+        }*/
     }
 }

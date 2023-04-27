@@ -4,6 +4,8 @@ import com.dongwon.simpleblog.model.Post;
 import com.dongwon.simpleblog.model.User;
 import com.dongwon.simpleblog.repository.PostRepository;
 import com.dongwon.simpleblog.service.UserService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,15 @@ class SimpleBlogApplicationTests {
     @Autowired
     UserService userService;
 
+    @BeforeEach
+    public void setup() {
+        postRepository.deleteAll();
+    }
+
+    @AfterEach
+    public void cleanup() {
+        postRepository.deleteAll();
+    }
 
     @Test
     void contextLoads() {

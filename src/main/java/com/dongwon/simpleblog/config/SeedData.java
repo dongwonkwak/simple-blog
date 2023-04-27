@@ -6,21 +6,19 @@ import com.dongwon.simpleblog.service.PostService;
 import com.dongwon.simpleblog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@ComponentScan("com.dongwon")
 public class SeedData implements CommandLineRunner {
     private final PostService postService;
     private final UserService userService;
 
     @Override
     public void run(String... args) throws Exception {
-        /*List<Post> posts = postService.getAll();
+        List<Post> posts = postService.getAll();
         if (posts.isEmpty()) {
             User user1 = new User();
             User user2 = new User();
@@ -47,6 +45,6 @@ public class SeedData implements CommandLineRunner {
 
             postService.save(post1);
             postService.save(post2);
-        }*/
+        }
     }
 }

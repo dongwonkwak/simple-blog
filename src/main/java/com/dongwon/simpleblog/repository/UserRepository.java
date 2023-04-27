@@ -1,6 +1,6 @@
 package com.dongwon.simpleblog.repository;
 
-import com.dongwon.api.user.User;
+import com.dongwon.simpleblog.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

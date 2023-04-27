@@ -1,7 +1,7 @@
 package com.dongwon.simpleblog.controller;
 
-import com.dongwon.api.post.Post;
-import com.dongwon.api.post.PostService;
+import com.dongwon.simpleblog.model.Post;
+import com.dongwon.simpleblog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

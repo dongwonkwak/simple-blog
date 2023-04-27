@@ -1,18 +1,16 @@
-package com.dongwon.api.post;
+package com.dongwon.simpleblog.model;
 
 
-import com.dongwon.api.user.User;
+import com.dongwon.simpleblog.util.BaseTime;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Setter
-public class Post {
+public class Post extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -22,12 +20,8 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String body;
 
-    private LocalDateTime createAt;
-
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
-
-
 }

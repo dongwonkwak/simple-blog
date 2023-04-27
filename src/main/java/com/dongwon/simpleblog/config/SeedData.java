@@ -1,9 +1,9 @@
 package com.dongwon.simpleblog.config;
 
-import com.dongwon.api.post.Post;
-import com.dongwon.api.post.PostService;
-import com.dongwon.api.user.User;
-import com.dongwon.api.user.UserService;
+import com.dongwon.simpleblog.model.Post;
+import com.dongwon.simpleblog.model.User;
+import com.dongwon.simpleblog.service.PostService;
+import com.dongwon.simpleblog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;

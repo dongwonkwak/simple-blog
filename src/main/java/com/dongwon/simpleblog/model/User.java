@@ -1,19 +1,14 @@
-package com.dongwon.api.user;
+package com.dongwon.simpleblog.model;
 
-import com.dongwon.api.post.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id

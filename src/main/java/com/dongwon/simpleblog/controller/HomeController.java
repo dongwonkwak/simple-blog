@@ -14,7 +14,7 @@ import java.util.List;
 public class HomeController {
     private final PostService postService;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(Model model) {
         List<Post> posts = postService.getAll();
         model.addAttribute("posts", posts);

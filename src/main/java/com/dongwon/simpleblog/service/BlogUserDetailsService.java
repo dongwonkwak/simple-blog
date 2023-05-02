@@ -18,8 +18,9 @@ public class BlogUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var optionalUser = userService.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var optionalUser = userService.findByUsername(username);
+
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("Account not found");
         }
@@ -30,6 +31,6 @@ public class BlogUserDetailsService implements UserDetailsService {
                 .stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                 .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

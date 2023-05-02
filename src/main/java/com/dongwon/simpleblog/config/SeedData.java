@@ -41,6 +41,7 @@ public class SeedData implements CommandLineRunner {
             user2.setUsername("bart");
             user2.setEmail("bart@springfield.com");
             user2.setPassword("password");
+            user2.setAuthorities(authorities1);
 
             userService.save(user1);
             userService.save(user2);

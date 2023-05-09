@@ -21,6 +21,7 @@ public class HomeController {
         var posts = postService.findAll(page);
 
         model.addAttribute("posts", posts);
+        model.addAttribute("page", page);
         return "home";
     }
 }

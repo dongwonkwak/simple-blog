@@ -13,7 +13,8 @@
             th:action="@{/posts}"
             th:object="${post}"
             method="post">
-        <h2 class="text-center">Write new post</h2>
+
+        <h2 class="text-center" th:text="*{user?.id} ? 'Edit post' : 'Write new post'"></h2>
 
         <div class="input-group mb-3">
           <label for="title"></label>

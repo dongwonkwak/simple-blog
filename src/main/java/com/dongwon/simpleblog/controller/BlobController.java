@@ -1,6 +1,6 @@
 package com.dongwon.simpleblog.controller;
 
-import com.dongwon.simpleblog.model.User;
+import com.dongwon.simpleblog.domain.User;
 import com.dongwon.simpleblog.service.PostService;
 import com.dongwon.simpleblog.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,9 @@ public class BlobController {
 
             model.addAttribute("user", user);
             model.addAttribute("posts", posts);
-            return "/posts";
+            return "posts";
         } else {
-            return "/404";
+            return "404";
         }
     }
 }

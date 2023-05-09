@@ -1,4 +1,4 @@
-package com.dongwon.simpleblog.model;
+package com.dongwon.simpleblog.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

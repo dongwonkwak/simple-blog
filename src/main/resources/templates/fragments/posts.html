@@ -1,14 +1,33 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head></head>
 <body>
 <div th:fragment="posts">
   <div class="card mb-3" th:each="post : ${posts}">
+    <br/>
     <div class="card-header">
       <h1 th:text="${post.title}">Title</h1>
       <div th:text="'Created: ' + ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} + ' by '">Created by</div>
       <div><a th:text="${post.user.username}" th:href="@{'/blog/' + ${post.user.username}}">User</a></div>
     </div>
     <h3 class="card-body" th:text="${post.body}">Body</h3>
+
+    <ul sec:authorize="isAuthenticated()">
+      <table th:if="${#authentication.getPrincipal().getUsername()} == ${post.user.username}">
+        <tr>
+          <td>
+            <form th:action="@{'/posts/' + ${post.id} + '/edit'}" method="post">
+              <button type="button" class="btn btn-primary">Edit</button>
+            </form>
+          </td>
+          <td>
+            <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post">
+              <button type="button" class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      </table>
+    </ul>
     <br/>
   </div>
 </div>

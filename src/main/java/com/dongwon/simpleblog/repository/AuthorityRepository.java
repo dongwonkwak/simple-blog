@@ -1,6 +1,6 @@
 package com.dongwon.simpleblog.repository;
 
-import com.dongwon.simpleblog.model.Authority;
+import com.dongwon.simpleblog.domain.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

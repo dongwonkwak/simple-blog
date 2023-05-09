@@ -1,6 +1,6 @@
 package com.dongwon.simpleblog.controller;
 
-import com.dongwon.simpleblog.model.User;
+import com.dongwon.simpleblog.domain.User;
 import com.dongwon.simpleblog.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("user", new User());
-        return "/registration";
+        return "registration";
     }
 
     @PostMapping("/registration")

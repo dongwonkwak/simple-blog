@@ -1,7 +1,7 @@
 package com.dongwon.simpleblog.service;
 
-import com.dongwon.simpleblog.model.Authority;
-import com.dongwon.simpleblog.model.User;
+import com.dongwon.simpleblog.domain.Authority;
+import com.dongwon.simpleblog.domain.User;
 import com.dongwon.simpleblog.repository.AuthorityRepository;
 import com.dongwon.simpleblog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

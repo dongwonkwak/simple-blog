@@ -1,6 +1,6 @@
 package com.dongwon.simpleblog.controller;
 
-import com.dongwon.simpleblog.model.Post;
+import com.dongwon.simpleblog.domain.Post;
 import com.dongwon.simpleblog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,9 +18,9 @@ public class HomeController {
     @GetMapping("/")
     public String home(@RequestParam(defaultValue = "0") int page,
                        Model model) {
-        Page<Post> posts = postService.findAll(page);
+        var posts = postService.findAll(page);
 
         model.addAttribute("posts", posts);
-        return "/home";
+        return "home";
     }
 }

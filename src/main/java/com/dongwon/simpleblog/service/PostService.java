@@ -1,7 +1,9 @@
 package com.dongwon.simpleblog.service;
 
-import com.dongwon.simpleblog.model.Post;
-import com.dongwon.simpleblog.model.User;
+import com.dongwon.simpleblog.domain.Post;
+import com.dongwon.simpleblog.domain.User;
+import com.dongwon.simpleblog.dto.PostDto;
+import com.dongwon.simpleblog.mapper.PostMapper;
 import com.dongwon.simpleblog.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,30 +17,37 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final PostMapper postMapper;
 
-    public Optional<Post> findById(Long id) {
-        return postRepository.findById(id);
+    public Optional<PostDto> findById(Long id) {
+        return postRepository.findById(id).map(postMapper::postToPostDto);
     }
 
-    public List<Post> getAll() {
-        return postRepository.findAll();
+    public List<PostDto> getAll() {
+        return postRepository.findAll().stream()
+                .map(postMapper::postToPostDto)
+                .toList();
     }
 
-    public Post save(Post post) {
+    public Long save(PostDto postDto) {
+        Post post = postMapper.postDtoToPost(postDto);
 
-        return postRepository.save(post);
+        return postRepository.save(post).getId();
     }
 
-    public Page<Post> findByUserWithPage(User user, int page) {
-        return postRepository.findByUser(user, PageRequest.of(subtractPageByOne(page), 5));
+    public Page<PostDto> findByUserWithPage(User user, int page) {
+
+        return postRepository.findByUser(user, PageRequest.of(subtractPageByOne(page), 5))
+                .map(postMapper::postToPostDto);
     }
 
-    public Page<Post> findAll(int page) {
-        return postRepository.findAll(PageRequest.of(subtractPageByOne(page), 5));
+    public Page<PostDto> findAll(int page) {
+        Page<Post> postPage = postRepository.findAll(PageRequest.of(subtractPageByOne(page), 5));
+        return postPage.map(postMapper::postToPostDto);
     }
 
-    public void delete(Post post) {
-        postRepository.delete(post);
+    public void delete(Long id) {
+        postRepository.deleteById(id);
     }
 
     private int subtractPageByOne(int page){

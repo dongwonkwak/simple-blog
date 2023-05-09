@@ -13,7 +13,7 @@
             th:action="@{/posts}"
             th:object="${post}"
             method="post">
-        <h2 class="text-center">Write new post</h2>
+        <h2 class="text-center">Edit post</h2>
 
         <div class="input-group mb-3">
           <label for="title"></label>
@@ -26,7 +26,7 @@
         <div class="input-group mb-3">
           <label for="body"></label>
           <textarea id="body" th:field="*{body}"
-                 class="form-control input-lg" rows="10"></textarea>
+                    class="form-control input-lg" rows="10"></textarea>
           <div style="color: red" th:if="${#fields.hasErrors('body')}" th:errors="*{body}">
             Invalid Body
           </div>

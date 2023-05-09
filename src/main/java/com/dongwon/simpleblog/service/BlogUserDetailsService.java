@@ -1,6 +1,6 @@
 package com.dongwon.simpleblog.service;
 
-import com.dongwon.simpleblog.model.User;
+import com.dongwon.simpleblog.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

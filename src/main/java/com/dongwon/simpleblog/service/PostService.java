@@ -3,6 +3,7 @@ package com.dongwon.simpleblog.service;
 import com.dongwon.simpleblog.domain.Post;
 import com.dongwon.simpleblog.domain.User;
 import com.dongwon.simpleblog.dto.PostDto;
+import com.dongwon.simpleblog.exception.SimpleBlogException;
 import com.dongwon.simpleblog.mapper.PostMapper;
 import com.dongwon.simpleblog.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,12 @@ public class PostService {
     }
 
     public void delete(Long id) {
-        postRepository.deleteById(id);
+        postRepository.findById(id)
+                .map(post -> {
+                    postRepository.delete(post);
+                    return true;
+                })
+                .orElseThrow(() -> new SimpleBlogException("Cannot find Post with Id: " + id));
     }
 
     private int subtractPageByOne(int page){

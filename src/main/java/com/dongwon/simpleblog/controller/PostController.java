@@ -72,6 +72,18 @@ public class PostController {
         return "editPostForm";
     }
 
+    @PostMapping("/{id}/delete")
+    public String deletePost(@PathVariable Long id,
+                             Authentication authentication) {
+        var postDto = postService.findById(id);
+        if (postDto.isPresent()) {
+            postService.delete(id);
+            return "redirect:/blog/" + authentication.getName();
+        }
+
+        return "404";
+    }
+
 
     /*@GetMapping("/posts/{id}")
     public String getPost(@PathVariable Long id, Model model) {

@@ -3,7 +3,6 @@ package com.dongwon.simpleblog.domain;
 
 import com.dongwon.simpleblog.util.BaseTime;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -23,6 +22,6 @@ public class Post extends BaseTime {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

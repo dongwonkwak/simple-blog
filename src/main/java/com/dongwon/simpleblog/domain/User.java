@@ -1,16 +1,17 @@
 package com.dongwon.simpleblog.domain;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "users")
 public class User {
     @Id
@@ -30,5 +31,5 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")}
     )
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<Authority> authorities;
 }

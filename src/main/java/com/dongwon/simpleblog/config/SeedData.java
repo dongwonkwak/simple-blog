@@ -34,14 +34,10 @@ public class SeedData implements CommandLineRunner {
             user1.setUsername("homer");
             user1.setEmail("homer@springfield.com");
             user1.setPassword("password");
-            Set<Authority> authorities1 = new HashSet<>();
-            authorityRepository.findById("ROLE_USER").ifPresent(authorities1::add);
-            user1.setAuthorities(authorities1);
 
             user2.setUsername("bart");
             user2.setEmail("bart@springfield.com");
             user2.setPassword("password");
-            user2.setAuthorities(authorities1);
 
             userService.save(user1);
             userService.save(user2);

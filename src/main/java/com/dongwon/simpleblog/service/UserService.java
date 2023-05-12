@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -18,21 +19,26 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthorityRepository authorityRepository;
 
+
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     public User save(User user) {
-        if (user.getId() == null && user.getAuthorities().isEmpty()) {
+        if (user.getAuthorities() == null) {
             var authorities = new HashSet<Authority>();
             authorityRepository.findById("ROLE_USER").ifPresent(authorities::add);
             user.setAuthorities(authorities);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public boolean existsByUsername(String username) {
+        return (userRepository.findByUsername(username).isPresent());
+    }
+
+    public boolean existsByEmail(String email) {
+        return (userRepository.findByEmail(email).isPresent());
     }
 }

@@ -1,6 +1,5 @@
 package com.dongwon.simpleblog.dto;
 
-import com.dongwon.simpleblog.domain.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -9,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 
 @Data
 @NoArgsConstructor
@@ -24,9 +24,7 @@ public class PostDto {
     @Size(min = 3, max = 5000, message = "Body must be minimum 3 characters, and maximum 5000 characters long")
     private String body;
 
-    private User user;
-
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    //private LocalDateTime createdDate;
+    //private LocalDateTime modifiedDate;
 }
 

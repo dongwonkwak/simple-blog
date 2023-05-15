@@ -13,9 +13,10 @@
             th:object="${post}"
             method="post">
 
-        <h2 class="text-center" th:text="*{user?.id} ? #{blog.editpost} : #{blog.newpost}"></h2>
+        <h2 class="text-center" th:text="${post?.title} ? #{blog.editpost} : #{blog.newpost}"></h2>
 
         <div class="input-group mb-3 row">
+          <label for="title"></label>
           <input id="title" type="text" th:field="*{title}" th:placeholder="#{blog.input.title}"
                  class="form-control input-lg"/>
           <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
@@ -30,8 +31,9 @@
             Invalid Body
           </div>
         </div>
-        <div class="input-group">
+        <div>
           <input type="submit" class="btn btn-primary btn-block" th:value="#{blog.button.save}"/>
+          <a href="/" role="button" class="btn btn-secondary" th:text="#{blog.button.cancel}"/>
         </div>
       </form>
     </div>

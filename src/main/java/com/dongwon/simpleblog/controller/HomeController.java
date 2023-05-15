@@ -1,9 +1,7 @@
 package com.dongwon.simpleblog.controller;
 
-import com.dongwon.simpleblog.domain.Post;
 import com.dongwon.simpleblog.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

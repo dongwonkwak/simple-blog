@@ -3,7 +3,6 @@ package com.dongwon.simpleblog.controller;
 import com.dongwon.simpleblog.dto.PostDto;
 import com.dongwon.simpleblog.exception.SimpleBlogException;
 import com.dongwon.simpleblog.service.PostService;
-import com.dongwon.simpleblog.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -19,14 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final UserService userService;
 
     @GetMapping("/{id}")
     public String getPost(@PathVariable Long id, Model model) {
         var optionalPost = postService.findById(id);
 
         if (optionalPost.isPresent()) {
-            PostDto post = optionalPost.get();
+            var post = optionalPost.get();
             model.addAttribute("post", post);
             return "post";
         } else {
@@ -34,7 +32,7 @@ public class PostController {
         }
     }
 
-    @GetMapping("/new")
+    @GetMapping
     public ModelAndView createPost(@ModelAttribute("post") PostDto postDto,
                                    ModelAndView modelAndView) {
         modelAndView.addObject("post", postDto);
@@ -49,17 +47,17 @@ public class PostController {
         if (errors.hasErrors()) {
             return "postForm";
         }
-        var optionalUser = userService.findByUsername(authentication.getName());
-        if (optionalUser.isPresent()) {
-            postDto.setUser(optionalUser.get());
-            postService.save(postDto);
+
+        try {
+            postService.create(postDto, authentication.getName());
             return "redirect:/blog/" + authentication.getName();
         }
-
-        return "404";
+        catch (SimpleBlogException ex) {
+            return "404";
+        }
     }
 
-    @PostMapping("/{id}/edit")
+    @PutMapping("/{id}")
     public String editPost(@PathVariable Long id,
                            Model model) {
         var optionalPost = postService.findById(id);
@@ -71,7 +69,7 @@ public class PostController {
         return "404";
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public String deletePost(@PathVariable Long id,
                              Authentication authentication) {
         var postDto = postService.findById(id);

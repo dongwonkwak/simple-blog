@@ -19,21 +19,25 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final PostMapper postMapper;
+    private final UserService userService;
 
-    public Optional<PostDto> findById(Long id) {
-        return postRepository.findById(id).map(postMapper::postToPostDto);
+
+    public Optional<Post> findById(Long id) {
+        return postRepository.findById(id);
+    }
+    public List<Post> getAll() {
+        return postRepository.findAll();
     }
 
-    public List<PostDto> getAll() {
-        return postRepository.findAll().stream()
-                .map(postMapper::postToPostDto)
-                .toList();
-    }
-
-    public Long save(PostDto postDto) {
-        Post post = postMapper.postDtoToPost(postDto);
-
-        return postRepository.save(post).getId();
+    public Post create(PostDto postDto, String username) {
+        return userService.findByUsername(username)
+                .map(user -> {
+                    Post post = postMapper.postDtoToPost(postDto);
+                    post.setUser(user);
+                    postRepository.save(post);
+                    return post;
+                })
+                .orElseThrow(() -> new SimpleBlogException("No username at " + username));
     }
 
     public Page<PostDto> findByUserWithPage(User user, int page) {
@@ -42,18 +46,12 @@ public class PostService {
                 .map(postMapper::postToPostDto);
     }
 
-    public Page<PostDto> findAll(int page) {
-        Page<Post> postPage = postRepository.findAll(PageRequest.of(subtractPageByOne(page), 5));
-        return postPage.map(postMapper::postToPostDto);
+    public Page<Post> findAll(int page) {
+        return postRepository.findAll(PageRequest.of(subtractPageByOne(page), 5));
     }
 
     public void delete(Long id) {
-        postRepository.findById(id)
-                .map(post -> {
-                    postRepository.delete(post);
-                    return true;
-                })
-                .orElseThrow(() -> new SimpleBlogException("Cannot find Post with Id: " + id));
+        postRepository.findById(id).ifPresent(postRepository::delete);
     }
 
     private int subtractPageByOne(int page){

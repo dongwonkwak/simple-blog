@@ -1,30 +1,28 @@
 package com.dongwon.simpleblog;
 
-
 import com.dongwon.simpleblog.controller.PostController;
 import com.dongwon.simpleblog.domain.Post;
 import com.dongwon.simpleblog.domain.User;
 import com.dongwon.simpleblog.dto.PostDto;
 import com.dongwon.simpleblog.service.PostService;
 import com.dongwon.simpleblog.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,26 +42,19 @@ class PostControllerTest {
     @WithMockUser
     void getPostShouldWork() throws Exception {
         // given
-        /*var post = postService.create(
-                PostDto.builder()
-                        .title("title")
-                        .body("body")
-                        .build(),
-                "user"
-        );
-        when(postService.findById(0L)).thenReturn(createPost());*/
-        mvc.perform(
-                        post("/posts")
-                                .param("title", "title1")
-                                .param("body", "body1")
-                                .with(csrf()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/blog/user"));
+        var post = createPost();
+        given(postService.findById(any())).willReturn(post);
 
         // when
-        mvc.perform(get("/posts/0"))
-                .andDo(print())
-                .andExpect(status().isOk());
+        String html = mvc.perform(get("/posts/0"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        // then
+        assertThat(html).contains(
+                "<h1>test title</h1>",
+                "<h3 class=\"card-body\">test body</h3>");
     }
 
     @Test
@@ -84,23 +75,17 @@ class PostControllerTest {
                 "user");
     }
 
-    @Test
-    @WithMockUser
-    void editPostShouldWork() throws Exception {
-        // given
-        when(postService.findById(0L)).thenReturn(createPost());
-
-        // when
-        //var postDto = postService
-    }
-
     Optional<Post> createPost() {
-        return Optional.ofNullable(postService.create(
-                PostDto.builder()
-                        .title("title")
-                        .body("body")
-                        .build(),
-                "user"
-        ));
+        User user = User.builder()
+                .username("user")
+                .email("user@example.com")
+                .password("password")
+                .build();
+
+        return Optional.ofNullable(Post.builder()
+                .title("test title")
+                .body("test body")
+                .user(user)
+                .build());
     }
 }

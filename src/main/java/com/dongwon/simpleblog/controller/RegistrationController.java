@@ -6,6 +6,7 @@ import com.dongwon.simpleblog.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +28,8 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String createUser(@ModelAttribute("user") @Valid UserDto userDto,
-                             Errors errors) {
+                             Errors errors,
+                             Model model) {
         if (errors.hasErrors()) {
             return "registration";
         }
@@ -36,9 +38,9 @@ public class RegistrationController {
                 .username(userDto.username())
                 .password(userDto.password())
                 .build();
-
+        model.addAttribute("success", true);
         userService.save(user);
 
-        return "redirect:/";
+        return "login";
     }
 }

@@ -10,7 +10,9 @@
       <div th:text="'Created: ' + ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} + ' by '">Created by</div>
       <div><a th:text="${post.user.username}" th:href="@{'/blog/' + ${post.user.username}}">User</a></div>
     </div>
-    <h3 class="card-body" th:text="${post.body}">Body</h3>
+    <h3 class="card-body" style="white-space: pre-line"
+        th:text="${post.body}">
+      Body</h3>
 
     <ul sec:authorize="isAuthenticated()">
       <table th:if="${#authentication.getPrincipal().getUsername()} == ${post.user.username}">

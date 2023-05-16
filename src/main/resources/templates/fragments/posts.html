@@ -16,7 +16,7 @@
       <table th:if="${#authentication.getPrincipal().getUsername()} == ${post.user.username}">
         <tr th:if="${page == null}">
           <td>
-            <form th:action="@{'/posts/' + ${post.id}}" th:method="put">
+            <form th:action="@{'/posts/' + ${post.id}}" th:method="get">
               <input type="submit" class="btn btn-primary" th:value="#{blog.button.edit}"/>
             </form>
           </td>

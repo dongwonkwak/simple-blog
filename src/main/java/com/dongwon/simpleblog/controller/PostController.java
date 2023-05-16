@@ -1,5 +1,6 @@
 package com.dongwon.simpleblog.controller;
 
+import com.dongwon.simpleblog.domain.Post;
 import com.dongwon.simpleblog.dto.PostDto;
 import com.dongwon.simpleblog.exception.SimpleBlogException;
 import com.dongwon.simpleblog.service.PostService;
@@ -59,11 +60,21 @@ public class PostController {
 
     @PutMapping("/{id}")
     public String editPost(@PathVariable Long id,
-                           Model model) {
+                           @Valid PostDto postDto,
+                           Errors errors,
+                           Authentication authentication) {
+        if (errors.hasErrors()) {
+            return "post";
+        }
+
         var optionalPost = postService.findById(id);
         if (optionalPost.isPresent()) {
-            model.addAttribute("post", optionalPost.get());
-            return "postForm";
+            Post existingPost = optionalPost.get();
+            existingPost.setTitle(postDto.title());
+            existingPost.setBody(postDto.body());
+            postService.update(existingPost);
+
+            return "redirect:/blog/" + authentication.getName();
         }
 
         return "404";
@@ -72,8 +83,8 @@ public class PostController {
     @DeleteMapping("/{id}")
     public String deletePost(@PathVariable Long id,
                              Authentication authentication) {
-        var postDto = postService.findById(id);
-        if (postDto.isPresent()) {
+        var post = postService.findById(id);
+        if (post.isPresent()) {
             postService.delete(id);
             return "redirect:/blog/" + authentication.getName();
         }

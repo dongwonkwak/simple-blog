@@ -2,6 +2,7 @@ package com.dongwon.simpleblog.service;
 
 import com.dongwon.simpleblog.domain.Authority;
 import com.dongwon.simpleblog.domain.User;
+import com.dongwon.simpleblog.dto.UserDto;
 import com.dongwon.simpleblog.repository.AuthorityRepository;
 import com.dongwon.simpleblog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +22,19 @@ public class UserService {
 
 
     public Optional<User> findByUsername(String username) {
-
         return userRepository.findByUsername(username);
     }
 
-    public User save(User user) {
-        if (user.getAuthorities() == null) {
-            var authorities = new HashSet<Authority>();
-            authorityRepository.findById("ROLE_USER").ifPresent(authorities::add);
-            user.setAuthorities(authorities);
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public void save(UserDto userDto) {
+        var authorities = new HashSet<Authority>();
+        authorityRepository.findById("ROLE_USER").ifPresent(authorities::add);
+        User user = User.builder()
+                .username(userDto.username())
+                .email(userDto.email())
+                .password(passwordEncoder.encode(userDto.password()))
+                .authorities(authorities)
+                .build();
+        userRepository.save(user);
     }
 
     public boolean existsByUsername(String username) {

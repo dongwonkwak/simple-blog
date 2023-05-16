@@ -6,29 +6,38 @@
 </head>
 <body>
 <div th:replace="~{/fragments/header :: header}"></div>
-<div class="card mb-3">
-    <div class="card-header">
-        <h1 th:text="${post.title}">Title</h1>
-        <div th:text="'Created: ' + ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} + ' by '">Created by</div>
-        <div><a th:text="${post.user.username}" th:href="@{'/blog/' + ${post.user.username}}">User</a></div>
+<div class="container">
+    <div class="row" style="margin-top: 20px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form action="#"
+                  th:action="@{'/posts/{id}'(id=${post.id})}"
+                  th:object="${post}"
+                  th:method="put">
+                <h2 class="text-center" th:text="#{blog.editpost}"></h2>
+
+                <div class="input-group mb-3 row">
+                    <label for="title"></label>
+                    <input id="title" type="text" th:field="${post.title}" th:placeholder="#{blog.input.title}"
+                           class="form-control input-lg"/>
+                    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="${post.title}">
+                        Invalid Title
+                    </div>
+                </div>
+                <div class="input-group mb-3 row">
+                    <label for="body"></label>
+                    <textarea id="body" th:field="${post.body}"
+                              class="form-control input-lg" rows="10"></textarea>
+                    <div style="color: red" th:if="${#fields.hasErrors('body')}" th:errors="${post.body}">
+                        Invalid Body
+                    </div>
+                </div>
+                <div>
+                    <input type="submit" class="btn btn-primary" th:value="#{blog.button.edit}"/>
+                    <a href="/" role="button" class="btn btn-secondary" th:text="#{blog.button.cancel}"/>
+                </div>
+            </form>
+        </div>
     </div>
-    <h3 class="card-body" th:text="${post.body}">Body</h3>
-    <ul sec:authorize="isAuthenticated()">
-        <table th:if="${#authentication.getPrincipal().getUsername()} == ${post.user.username}">
-            <tr>
-                <td>
-                    <form th:action="@{'/posts/' + ${post.id}}" th:method="put">
-                        <input type="submit" class="btn btn-primary" th:value="#{blog.button.edit}"/>
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{'/posts/' + ${post.id}}" th:method="delete">
-                        <input type="submit" class="btn btn-danger" th:value="#{blog.button.delete}"/>
-                    </form>
-                </td>
-            </tr>
-        </table>
-    </ul>
 </div>
 <div th:replace="~{/fragments/footer :: footer}"></div>
 </body>

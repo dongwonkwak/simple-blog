@@ -13,7 +13,7 @@
             th:object="${post}"
             method="post">
 
-        <h2 class="text-center" th:text="${post?.title} ? #{blog.editpost} : #{blog.newpost}"></h2>
+        <h2 class="text-center" th:text="#{blog.newpost}"></h2>
 
         <div class="input-group mb-3 row">
           <label for="title"></label>

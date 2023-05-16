@@ -29,21 +29,24 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post create(PostDto postDto, String username) {
-        return userService.findByUsername(username)
+    public void create(PostDto postDto, String username) {
+        userService.findByUsername(username)
                 .map(user -> {
                     Post post = postMapper.postDtoToPost(postDto);
                     post.setUser(user);
                     postRepository.save(post);
-                    return post;
+                    return true;
                 })
                 .orElseThrow(() -> new SimpleBlogException("No username at " + username));
     }
 
-    public Page<PostDto> findByUserWithPage(User user, int page) {
+    public Post update(Post post) {
+        return postRepository.save(post);
+    }
 
-        return postRepository.findByUser(user, PageRequest.of(subtractPageByOne(page), 5))
-                .map(postMapper::postToPostDto);
+    public Page<Post> findByUserWithPage(User user, int page) {
+
+        return postRepository.findByUser(user, PageRequest.of(subtractPageByOne(page), 5));
     }
 
     public Page<Post> findAll(int page) {

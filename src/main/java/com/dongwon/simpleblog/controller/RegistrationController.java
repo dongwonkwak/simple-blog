@@ -1,6 +1,5 @@
 package com.dongwon.simpleblog.controller;
 
-import com.dongwon.simpleblog.domain.User;
 import com.dongwon.simpleblog.dto.UserDto;
 import com.dongwon.simpleblog.service.UserService;
 import jakarta.validation.Valid;
@@ -33,13 +32,9 @@ public class RegistrationController {
         if (errors.hasErrors()) {
             return "registration";
         }
-        User user = User.builder()
-                .email(userDto.email())
-                .username(userDto.username())
-                .password(userDto.password())
-                .build();
+
         model.addAttribute("success", true);
-        userService.save(user);
+        userService.save(userDto);
 
         return "login";
     }

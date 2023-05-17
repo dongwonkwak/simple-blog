@@ -19,18 +19,16 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private static final String REDIRECT_BLOG_URL = "redirect:/blog/";
 
     @GetMapping("/{id}")
     public String getPost(@PathVariable Long id, Model model) {
-        var optionalPost = postService.findById(id);
-
-        if (optionalPost.isPresent()) {
-            var post = optionalPost.get();
-            model.addAttribute("post", post);
-            return "post";
-        } else {
-            return "404";
-        }
+        return postService.findById(id)
+                .map(post -> {
+                    model.addAttribute("post", post);
+                    return "post";
+                })
+                .orElse("404");
     }
 
     @GetMapping
@@ -51,7 +49,7 @@ public class PostController {
 
         try {
             postService.create(postDto, authentication.getName());
-            return "redirect:/blog/" + authentication.getName();
+            return REDIRECT_BLOG_URL + authentication.getName();
         }
         catch (SimpleBlogException ex) {
             return "404";
@@ -61,35 +59,28 @@ public class PostController {
     @PutMapping("/{id}")
     public String editPost(@PathVariable Long id,
                            @Valid PostDto postDto,
-                           Errors errors,
-                           Authentication authentication) {
+                           Errors errors) {
         if (errors.hasErrors()) {
             return "post";
         }
 
-        var optionalPost = postService.findById(id);
-        if (optionalPost.isPresent()) {
-            Post existingPost = optionalPost.get();
-            existingPost.setTitle(postDto.title());
-            existingPost.setBody(postDto.body());
-            postService.update(existingPost);
-
-            return "redirect:/blog/" + authentication.getName();
-        }
-
-        return "404";
+        return postService.findById(id)
+            .map(post -> {
+                post.setTitle(postDto.title());
+                post.setBody(postDto.body());
+                postService.update(post);
+                return REDIRECT_BLOG_URL + post.getUser().getUsername();
+            }).orElse("404");
     }
 
     @DeleteMapping("/{id}")
-    public String deletePost(@PathVariable Long id,
-                             Authentication authentication) {
-        var post = postService.findById(id);
-        if (post.isPresent()) {
-            postService.delete(id);
-            return "redirect:/blog/" + authentication.getName();
-        }
-
-        return "404";
+    public String deletePost(@PathVariable Long id) {
+        return postService.findById(id)
+            .map(post -> {
+                postService.delete(id);
+                return REDIRECT_BLOG_URL + post.getUser().getUsername();
+            })
+            .orElse("404");
     }
 
     @ExceptionHandler(SimpleBlogException.class)

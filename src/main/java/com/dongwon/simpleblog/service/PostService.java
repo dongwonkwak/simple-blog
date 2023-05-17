@@ -29,13 +29,12 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public void create(PostDto postDto, String username) {
-        userService.findByUsername(username)
+    public Post create(PostDto postDto, String username) {
+        return userService.findByUsername(username)
                 .map(user -> {
                     Post post = postMapper.postDtoToPost(postDto);
                     post.setUser(user);
-                    postRepository.save(post);
-                    return true;
+                    return postRepository.save(post);
                 })
                 .orElseThrow(() -> new SimpleBlogException("No username at " + username));
     }

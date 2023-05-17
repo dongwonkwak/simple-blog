@@ -53,8 +53,8 @@ class PostControllerTest {
                 .getContentAsString();
         // then
         assertThat(html).contains(
-                "<h1>test title</h1>",
-                "<h3 class=\"card-body\">test body</h3>");
+                "class=\"form-control input-lg\" name=\"title\" value=\"test title\"/>",
+                "<textarea id=\"body\" class=\"form-control input-lg\" rows=\"10\" name=\"body\">test body</textarea>");
     }
 
     @Test

@@ -25,7 +25,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void save(UserDto userDto) {
+    public User save(UserDto userDto) {
         var authorities = new HashSet<Authority>();
         authorityRepository.findById("ROLE_USER").ifPresent(authorities::add);
         User user = User.builder()
@@ -34,7 +34,7 @@ public class UserService {
                 .password(passwordEncoder.encode(userDto.password()))
                 .authorities(authorities)
                 .build();
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public boolean existsByUsername(String username) {

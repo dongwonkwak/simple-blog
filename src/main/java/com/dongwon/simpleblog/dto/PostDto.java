@@ -14,4 +14,3 @@ public record PostDto(
         @Size(min = 3, max = 5000, message = "Body must be minimum 3 characters, and maximum 5000 characters long")
         String body) {
 }
-

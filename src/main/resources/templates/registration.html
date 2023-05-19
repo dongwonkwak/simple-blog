@@ -12,7 +12,7 @@
                   th:object="${user}" method="post" role="form">
 
                 <div class="mb-3 row">
-                    <label for="username" class="col-sm-2 col-form-label" th:text="#{blog.label.username}">Username</label>
+                    <label for="username" class="col-sm-3 col-form-label" th:text="#{blog.label.username}">Username</label>
                     <div class="col-sm-10">
                         <input id="username" type="text" th:field="*{username}" th:placeholder="#{blog.label.username}"
                                class="form-control"/>
@@ -21,22 +21,37 @@
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="email" class="col-sm-2 col-form-label" th:text="#{blog.label.email}">email</label>
+                    <label for="email" class="col-sm-3 col-form-label" th:text="#{blog.label.email}">email</label>
                     <div class="col-sm-10">
                         <input type="text" id="email" class="form-control" th:field="*{email}" th:placeholder="#{blog.label.email}">
                     </div>
                     <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="password" class="col-sm-2 col-form-label" th:text="#{blog.label.password}">Password</label>
+                    <label for="password" class="col-sm-3 col-form-label" th:text="#{blog.label.password}">Password</label>
                     <div class="col-sm-10">
                         <input id="password" type="password" th:field="*{password}" th:placeholder="#{blog.label.password}"
                                class="form-control"/>
                     </div>
-                    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    <ul class="text-left" th:each="error: ${#fields.errors('password')}">
+                        <li th:each="message : ${error.split(',')}">
+                            <p style= "color: red" class="error-message" th:text="${message}"></p>
+                        </li>
+                    </ul>
                 </div>
 
-
+                <div class="mb-3 row">
+                    <label for="confirmPassword" class="col-sm-3 col-form-label" th:text="#{blog.label.confirmPassword}">Confirm Password</label>
+                    <div class="col-sm-10">
+                        <input id="confirmPassword" type="password" th:field="*{confirmPassword}" th:placeholder="#{blog.label.confirmPassword}"
+                               class="form-control"/>
+                    </div>
+                    <ul class="text-left" th:each="error: ${#fields.errors('confirmPassword')}">
+                        <li th:each="message : ${error.split(',')}">
+                            <p style= "color: red" class="error-message" th:text="${message}"></p>
+                        </li>
+                    </ul>
+                </div>
                 <div class="row">
                     <div class="col-sm-3" style="float: none; margin: 0 auto;">
                         <input type="submit" class="btn btn-primary btn-block" value="Submit"/>

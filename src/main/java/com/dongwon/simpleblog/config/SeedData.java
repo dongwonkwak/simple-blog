@@ -30,14 +30,17 @@ public class SeedData implements CommandLineRunner {
             authority.setName("ROLE_USER");
             authorityRepository.save(authority);
 
-            UserDto user1 = new UserDto(
-                    "homer",
-                    "homer@springfield.com",
-                    "password");
-            UserDto user2 = new UserDto(
-                    "bart",
-                    "bart@springfield.com",
-                    "password");
+            UserDto user1 = UserDto.builder()
+                    .username("homer")
+                    .email("homer@springfield.com")
+                    .password("password")
+                    .build();
+            UserDto user2 = UserDto.builder()
+                    .username("bart")
+                    .email("bart@springfield.com")
+                    .password("password")
+                    .build();
+
             userService.save(user1);
             userService.save(user2);
             String body1 = """

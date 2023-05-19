@@ -1,7 +1,5 @@
 package com.dongwon.simpleblog.validation;
 
-
-import com.dongwon.simpleblog.domain.User;
 import com.dongwon.simpleblog.dto.UserDto;
 import com.dongwon.simpleblog.service.UserService;
 import jakarta.validation.ConstraintValidator;
